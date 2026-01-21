@@ -1,7 +1,4 @@
-mod config;
-mod network;
-mod engine;
-mod refinery;
+// use titan_flow::config; // (Reserved for future use)
 
 #[tokio::main]
 async fn main() {
@@ -12,5 +9,5 @@ async fn main() {
         .json()
         .init();
 
-    tracing::info!("Titan-Flow Engineering Orchestrator Initialized [Phase 0 Complete]");
+    tracing::info!("Titan-Flow Engineering Orchestrator Initialized");
 }
