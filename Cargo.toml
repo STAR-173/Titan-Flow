@@ -1,0 +1,48 @@
+[package]
+name = "titan-flow"
+version = "0.1.0"
+edition = "2021"
+authors = ["Titan-Flow Engineering"]
+
+# [NFR-01] Production Profile
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true
+
+[dependencies]
+# --- Core Async Runtime ---
+tokio = { version = "1.35", features = ["full"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["json", "env-filter"] }
+
+# --- Network & TLS Identity [FR-01] ---
+rquest = { version = "2.2", features = ["gzip", "brotli"] }
+url = "2.5"
+
+# --- Serialization & Data ---
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "1.0"
+
+# --- Browser Automation [FR-03] ---
+chromiumoxide = { version = "0.5", features = ["tokio-runtime"] }
+
+# --- Data Refinery & Parsing ---
+scraper = "0.18"
+regex = "1.10"
+unicode-segmentation = "1.10"
+xxhash-rust = { version = "0.8", features = ["xxh64"] }
+
+# --- Persistence ---
+lancedb = "0.4"
+arrow = "51.0" 
+
+# --- Governance ---
+sysinfo = "0.30"
+governor = "0.6"
+nonzero_ext = "0.3"
+
+# --- CRITICAL FIX: Pin Chrono to avoid 'quarter()' trait conflict with Arrow ---
+# Do not remove this until we upgrade to Arrow v53+
+chrono = "=0.4.38"

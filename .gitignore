@@ -1,0 +1,10 @@
+docs/
+/target
+**/*.rs.bk
+Cargo.lock
+.env
+.vscode
+.idea
+*.log
+.cargo/
+.deps/
