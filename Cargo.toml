@@ -42,3 +42,5 @@ arrow = "50.0"
 sysinfo = "0.30"
 governor = "0.6"
 nonzero_ext = "0.3"
+redis = { version = "0.25", features = ["tokio-comp", "connection-manager"] }
+robotstxt = "0.3"
