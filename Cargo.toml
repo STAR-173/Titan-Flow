@@ -14,10 +14,17 @@ strip = true
 tokio = { version = "1.35", features = ["full"] }
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["json", "env-filter"] }
+futures = "0.3"                                                             # * ADDED: Required for StreamExt in slow_path.rs
 
 # --- Network [FR-01] ---
-# * ADDED: 'webpki-roots' is CRITICAL for SSL verification on Windows/BoringSSL
-rquest = { version = "2.0", default-features = false, features = ["gzip", "brotli", "cookies", "webpki-roots"] }
+# * CHANGED: Switched to reqwest+rustls to fix Windows BoringSSL/Bindgen build failures.
+reqwest = { version = "0.11", default-features = false, features = [
+    "gzip",
+    "brotli",
+    "cookies",
+    "rustls-tls",
+    "json",
+] }
 url = "2.5"
 
 # --- Serialization ---

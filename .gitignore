@@ -8,3 +8,4 @@ Cargo.lock
 *.log
 .cargo/
 .deps/
+settings.local.json

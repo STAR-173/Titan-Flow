@@ -1,5 +1,7 @@
 use crate::network::errors::NetworkError;
-use rquest::{Impersonate, Client, Proxy};
+use crate::network::identity::IdentityProfile;
+use reqwest::{Client, Proxy};
+use reqwest::header::HeaderMap;
 use regex::Regex;
 use std::time::Duration;
 
@@ -16,17 +18,21 @@ impl FastClient {
     // * Initializes the client. 
     // * Optional `proxy_url` (scheme://user:pass@host:port).
     pub fn new(proxy_url: Option<&str>) -> Result<Self, NetworkError> {
+        // * Build Identity Headers [EDD-1.2]
+        // * We manually apply headers since we switched to reqwest to fix Windows build.
+        let profile = IdentityProfile::generate_chrome_120();
+        let mut headers = HeaderMap::new();
+        profile.apply_to_headers(&mut headers);
+
         let mut builder = Client::builder()
-            .impersonate(Impersonate::Chrome120)
-            .enable_ech_grease(true)
-            .permute_extensions(true)
+            .default_headers(headers)
             .cookie_store(true)
             .timeout(Duration::from_secs(30));
 
         // * Proxy Injection
         if let Some(url) = proxy_url {
             let proxy = Proxy::all(url)
-                .map_err(|e| NetworkError::Rquest(e))?;
+                .map_err(|e| NetworkError::Reqwest(e))?;
             builder = builder.proxy(proxy);
         }
 
@@ -66,7 +72,7 @@ impl FastClient {
         }
 
         if !status.is_success() {
-            return Err(NetworkError::Rquest(resp.error_for_status().unwrap_err()));
+            return Err(NetworkError::Reqwest(resp.error_for_status().unwrap_err()));
         }
 
         let body = resp.text().await?;

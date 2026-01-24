@@ -1,5 +1,5 @@
 use titan_flow::network::identity::IdentityProfile;
-use rquest::header::HeaderMap;
+use reqwest::header::HeaderMap;
 
 #[test]
 fn test_generate_chrome_120_structure() {
@@ -17,7 +17,7 @@ fn test_apply_to_headers_integrity() {
     let ua = headers.get("User-Agent").unwrap().to_str().unwrap();
     assert_eq!(ua, profile.user_agent);
     
-    // * Check rquest/reqwest specific header handling if needed, 
+    // * Check reqwest specific header handling if needed, 
     // * but strictly we just check the map contents.
     assert_eq!(headers.get("sec-ch-ua-mobile").unwrap(), "?0");
 }

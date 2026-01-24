@@ -3,9 +3,7 @@
 
 use redis::aio::ConnectionManager;
 use redis::AsyncCommands;
-use std::sync::Arc;
 use thiserror::Error;
-use tokio::sync::RwLock;
 use tracing::{debug, info, warn};
 use xxhash_rust::xxh64::xxh64;
 

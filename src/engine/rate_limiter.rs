@@ -12,7 +12,7 @@ use std::sync::Arc;
 use std::time::Duration;
 use thiserror::Error;
 use tokio::sync::RwLock;
-use tracing::{debug, info, warn};
+use tracing::{debug, warn};
 use xxhash_rust::xxh64::xxh64;
 
 // * TTL constants for Redis keys
@@ -81,7 +81,8 @@ impl RobotstxtParser {
 
     // * Checks if a path is allowed for crawling
     pub fn is_allowed(&self, robots_txt: &str, path: &str) -> bool {
-        let matcher = DefaultMatcher::default();
+        // * FIXED: Changed to `let mut matcher` as method call requires mutable borrow
+        let mut matcher = DefaultMatcher::default();
         matcher.one_agent_allowed_by_robots(robots_txt, &self.user_agent, path)
     }
 

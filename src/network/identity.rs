@@ -1,4 +1,4 @@
-use rquest::header::{HeaderMap, HeaderValue};
+use reqwest::header::{HeaderMap, HeaderValue};
 
 // * IdentityProfile defines the browser fingerprinting characteristics.
 pub struct IdentityProfile {

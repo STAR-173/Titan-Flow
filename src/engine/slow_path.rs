@@ -2,18 +2,11 @@
 // * Uses ChromiumOxide for JavaScript-heavy pages that require full rendering
 
 use chromiumoxide::browser::{Browser, BrowserConfig};
-use chromiumoxide::cdp::browser_protocol::network::{
-    EventRequestPaused, ResourceType,
-};
-use chromiumoxide::cdp::browser_protocol::fetch::EnableParams;
 use chromiumoxide::page::Page;
-use chromiumoxide::Handler;
 use futures::StreamExt;
-use std::sync::Arc;
 use std::time::Duration;
 use thiserror::Error;
-use tokio::sync::RwLock;
-use tracing::{debug, error, info, warn};
+use tracing::info;
 
 use crate::config::constants::PAGE_TIMEOUT_MS;
 
@@ -271,7 +264,8 @@ impl SlowPathRenderer {
 
     // * Closes the browser gracefully
     pub async fn shutdown(&mut self) {
-        if let Some(browser) = self.browser.take() {
+        // * FIXED: Changed to `mut browser` as close() requires mutable borrow
+        if let Some(mut browser) = self.browser.take() {
             let _ = browser.close().await;
         }
         if let Some(handler) = self.handler.take() {

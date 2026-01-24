@@ -4,7 +4,7 @@ use thiserror::Error;
 #[derive(Error, Debug)]
 pub enum NetworkError {
     #[error("Request failed: {0}")]
-    Rquest(#[from] rquest::Error), // * CHANGED: Mapping from rquest::Error
+    Reqwest(#[from] reqwest::Error), // * CHANGED: Mapped from reqwest::Error
 
     #[error("Soft Ban detected: {0}")]
     SoftBan(String),

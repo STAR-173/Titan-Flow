@@ -25,7 +25,8 @@ async fn test_escalation_flow_simulation() {
         Ok(_) => panic!("Should not succeed on dummy proxy"),
         Err(e) => {
             match e {
-                NetworkError::Rquest(_) => {
+                // * CHANGED: Match against Reqwest error variant
+                NetworkError::Reqwest(_) => {
                     println!("Escalation successful: Reached connection error on Tier 2");
                 },
                 _ => panic!("Failed to escalate properly. Got: {:?}", e),
