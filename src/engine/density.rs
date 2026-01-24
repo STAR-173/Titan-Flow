@@ -23,8 +23,6 @@ static LINK_SELECTOR: LazyLock<Selector> =
     LazyLock::new(|| Selector::parse("a[href]").unwrap());
 static ARTICLE_SELECTOR: LazyLock<Selector> =
     LazyLock::new(|| Selector::parse("article, main").unwrap());
-static ALL_TAGS_SELECTOR: LazyLock<Selector> =
-    LazyLock::new(|| Selector::parse("*").unwrap());
 
 // * Routing decision based on density score
 #[derive(Debug, Clone, Copy, PartialEq)]
@@ -99,28 +97,26 @@ fn compute_text_density(document: &Html) -> f64 {
 }
 
 // * Computes link density as ratio of link text to total text
+// * FIXED: Now strips whitespace to ensure formatting doesn't skew ratio
 fn compute_link_density(document: &Html) -> f64 {
-    let total_text: String = document
+    let total_text_len: usize = document
         .select(&TEXT_SELECTOR)
         .flat_map(|el| el.text())
-        .collect::<Vec<_>>()
-        .join(" ");
+        .map(|s| s.trim().len())
+        .sum();
 
-    let link_text: String = document
+    let link_text_len: usize = document
         .select(&LINK_SELECTOR)
         .flat_map(|el| el.text())
-        .collect::<Vec<_>>()
-        .join(" ");
+        .map(|s| s.trim().len())
+        .sum();
 
-    let total_len = total_text.len();
-    let link_len = link_text.len();
-
-    if total_len == 0 {
+    if total_text_len == 0 {
         return 0.0;
     }
 
     // * Invert so lower link density = higher score (content-rich pages have less link text)
-    let ratio = link_len as f64 / total_len as f64;
+    let ratio = link_text_len as f64 / total_text_len as f64;
     1.0 - ratio.min(1.0)
 }
 
@@ -173,6 +169,7 @@ mod tests {
 
         let metrics = DensityMetrics::compute(html);
         // * Link-heavy pages should have lower link_density score
+        // * With whitespace stripping, total_len ~18, link_len ~18, ratio ~1.0, score ~0.0
         assert!(metrics.link_density < 0.5);
     }
 
