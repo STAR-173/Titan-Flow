@@ -3,7 +3,7 @@
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
 ![Language](https://img.shields.io/badge/language-Rust_2021-orange)
 ![Architecture](https://img.shields.io/badge/architecture-Async_Tokio-blue)
-![Status](https://img.shields.io/badge/status-Milestone_3_Complete-success)
+![Status](https://img.shields.io/badge/status-Milestone_4_Complete-success)
 
 **Titan-Flow** is a high-performance, distributed web crawler and data refinery designed to replace legacy Python systems. It achieves order-of-magnitude improvements by porting battle-tested heuristics from `crawl4ai` directly into a concurrent Rust architecture.
 
@@ -40,14 +40,21 @@ Intelligent routing between fast HTTP and slow Headless rendering.
 - [x] **[Task 3.2]** Slow Path Renderer (Headless Chromium w/ Stealth).
 - [x] **[Task 3.3]** Circuit Breaker (Failure Tracking & Handoff).
 
-### 🚧 Milestone 4: The Refinery (CURRENT GOAL)
+### ✅ Milestone 4: The Refinery (COMPLETED)
 Turning raw HTML into structured, valuable data.
-- [ ] **[Task 4.1]** DOM Tree Shaking & Boilerplate Removal.
-- [ ] **[Task 4.2]** Heuristic Table Extraction.
-- [ ] **[Task 4.3]** Smart Chunking (Token-aware).
+- [x] **[Task 4.1]** DOM Tree Shaking & Boilerplate Removal.
+- [x] **[Task 4.2]** Heuristic Table Extraction.
+- [x] **[Task 4.3]** Regex Entity Extraction (Email, URL, UUID, Dates).
+- [x] **[Task 4.4]** Smart Chunking (Unicode-aware Sliding Window).
+- [x] **[Task 4.5]** Newsroom Metadata Extraction (JSON-LD, Meta Tags).
+
+### 🚧 Milestone 5: Persistence & AI (CURRENT GOAL)
+- [ ] **[Task 5.1]** LanceDB Schema (MultimodalRecord).
+- [ ] **[Task 5.2]** Deduplication (LSHBloom MinHash).
+- [ ] **[Task 5.3]** Link Intrinsic Scorer.
+- [ ] **[Task 5.4]** Async AI Enrichment Worker.
 
 ### 🔮 Upcoming Milestones
-- **Milestone 5: Persistence & AI** (LanceDB Schema, Vector Embeddings, Dedupe).
 - **Milestone 6: Operations** (Telemetry, Docker, Alerting).
 
 ---
