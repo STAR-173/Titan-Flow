@@ -52,3 +52,8 @@ nonzero_ext = "0.3"
 redis = { version = "0.25", features = ["tokio-comp", "connection-manager"] }
 robotstxt = "0.3"
 
+# --- Observability ---
+prometheus = "0.13"
+hyper = { version = "0.14", features = ["server", "http1", "tcp"] }
+lazy_static = "1.4"
+
